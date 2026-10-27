@@ -1,0 +1,39 @@
+# Core & Data Models
+pydantic>=2.7.0
+pydantic-settings>=2.2.0
+python-dotenv>=1.0.1
+requests>=2.31.0
+tqdm>=4.66.0
+pandas>=2.2.0
+numpy>=1.26.0
+
+# Document Ingestion & Table Parsing
+pymupdf>=1.24.0
+pymupdf4llm>=0.0.17
+
+# Search, Retrieval & Vector Store
+chromadb>=0.5.0
+rank-bm25>=0.2.2
+flashrank>=0.2.9
+
+# LLM Framework & Providers
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-community>=0.2.0
+langchain-openai>=0.1.7
+langchain-google-genai>=1.0.5
+
+# Evaluation
+ragas>=0.1.9
+datasets>=2.19.0
+
+# API & Frontend Dashboard
+fastapi>=0.111.0
+uvicorn>=0.30.0
+streamlit>=1.35.0
+
+# Testing & Quality
+pytest>=8.2.0
+pytest-asyncio>=0.23.0
+black>=24.4.0
+ruff>=0.4.0

@@ -1,0 +1,44 @@
+[
+  {
+    "question": "What was the total net sales for Apple in fiscal year 2023?",
+    "ground_truth": "$383,285 million (or $383.29 billion), representing a 3% decrease from $394,328 million in 2022.",
+    "document": "apple_10k_sample.pdf",
+    "page": 2,
+    "category": "single_metric"
+  },
+  {
+    "question": "What was the Net Income from 2021 to 2023?",
+    "ground_truth": "In 2021 Net Income was $94,680 million, in 2022 it was $99,803 million, and in 2023 it was $96,995 million.",
+    "document": "apple_10k_sample.pdf",
+    "page": 2,
+    "category": "multi_year_range"
+  },
+  {
+    "question": "Compare Operating Income in 2021 vs 2022",
+    "ground_truth": "Operating Income was $108,949 million in 2021 and grew to $119,437 million in 2022, representing an increase of $10,488 million (+9.6%).",
+    "document": "apple_10k_sample.pdf",
+    "page": 2,
+    "category": "period_comparison"
+  },
+  {
+    "question": "Compare Products and Services net sales between 2022 and 2023.",
+    "ground_truth": "Products sales decreased from $316,199 million in 2022 to $298,085 million in 2023. Services sales increased from $78,129 million in 2022 to an all-time record of $85,200 million in 2023.",
+    "document": "apple_10k_sample.pdf",
+    "page": 2,
+    "category": "segment_comparison"
+  },
+  {
+    "question": "What were the total research and development expenses in 2023?",
+    "ground_truth": "Research and development expenses were $29,915 million in 2023 compared to $26,251 million in 2022.",
+    "document": "apple_10k_sample.pdf",
+    "page": 2,
+    "category": "single_metric"
+  },
+  {
+    "question": "What are the principal risk factors regarding supply chain?",
+    "ground_truth": "Risks include disruptions to manufacturing and supply chain partners located primarily in Asia, component shortages, and customs disruptions causing inventory delays.",
+    "document": "apple_10k_sample.pdf",
+    "page": 4,
+    "category": "qualitative_risk"
+  }
+]
