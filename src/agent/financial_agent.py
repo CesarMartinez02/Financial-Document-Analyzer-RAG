@@ -154,11 +154,12 @@ class FinancialAgent:
             text = ch.get("content", "")
             for line in text.split("\n"):
                 clean_l = line.strip()
-                # Use robust regex matching company suffixes followed by boundary, whitespace or end of string
-                if re.search(r"\b(INC\.?|CORP\.?|LLC|LTD\.?|CORPORATION|PLC|S\.A\.?)(?:\s|$|,)", clean_l, re.IGNORECASE):
-                    clean_l = re.sub(r"^[\d\s\-_:.#*]+", "", clean_l).strip()
-                    if clean_l and len(clean_l) <= 50 and "COMMISSION" not in clean_l.upper():
-                        return clean_l.title()
+                # Capture only up to the corporate suffix (e.g. 'Apple Inc.' instead of 'Apple Inc. CONSOLIDATED STATEMENTS...')
+                m = re.search(r"^(.+?\b(?:INC\.?|CORP\.?|LLC|LTD\.?|CORPORATION|PLC|S\.A\.?))(?:\s|$|,)", clean_l, re.IGNORECASE)
+                if m:
+                    candidate = re.sub(r"^[\d\s\-_:.#*]+", "", m.group(1)).strip()
+                    if candidate and len(candidate) <= 40 and "COMMISSION" not in candidate.upper():
+                        return candidate.title()
 
         # Fallback to sanitized document name
         doc_name = context_chunks[0].get("document_name", "")
@@ -342,6 +343,22 @@ class FinancialAgent:
                         if is_range_query and len(parsed_numbers) >= 3:
                             total_sum = sum(v for _, v in parsed_numbers)
                             calc_summary += f" [Total {oldest_col}-{recent_col}: ${total_sum:,.0f}]"
+                    elif len(parsed_numbers) == 1 and len(cols) >= 2:
+                        # If only 1 year was requested (e.g. 2023), provide standard financial YoY audit against prior year
+                        q_col, q_val = parsed_numbers[0]
+                        prior_years = [c for c in cols.keys() if c != q_col and re.match(r"^20\d\d$", c)]
+                        if prior_years:
+                            prev_col = sorted(prior_years, reverse=True)[0]
+                            p_match = re.search(r"[\d,.]+", cols[prev_col].replace(",", ""))
+                            if p_match:
+                                try:
+                                    p_val = float(p_match.group(0))
+                                    diff = q_val - p_val
+                                    pct = (diff / p_val * 100) if p_val != 0 else 0.0
+                                    sign = "+" if diff > 0 else ""
+                                    calc_summary = f" (vs {prev_col}: {sign}{diff:,.0f} or {sign}{pct:.1f}% from ${p_val:,.0f} in {prev_col})"
+                                except Exception:
+                                    pass
 
                     finding_text = f"- **{r_name}** ({company_name}, Page {page}): {', '.join(row_details)}{calc_summary}"
                     cit = Citation(
@@ -363,7 +380,7 @@ class FinancialAgent:
 
             for line in lines:
                 l_str = line.strip()
-                if not l_str or l_str.startswith("|") or len(l_str) < 25:
+                if not l_str or "|" in l_str or len(l_str) < 25:
                     continue
                 l_lower = l_str.lower()
                 m_count = sum(1 for term in target_terms if term in l_lower)

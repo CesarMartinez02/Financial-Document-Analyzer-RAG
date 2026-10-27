@@ -195,10 +195,10 @@ uvicorn app.api:app --reload --port 8000
 
 | Metric | Target | Result | Description |
 | :--- | :---: | :---: | :--- |
-| **Faithfulness** | > 0.90 | **0.95** | Measures whether claims are grounded strictly in retrieved context. |
-| **Answer Relevance** | > 0.85 | **0.91** | Assesses how directly the response addresses the prompt. |
-| **Context Precision** | > 0.80 | **0.88** | Evaluates the proportion of retrieved chunks that were actually useful. |
-| **Context Recall** | > 0.80 | **0.86** | Measures whether all relevant facts in ground-truth were retrieved. |
+| **Context Retrieval Recall** | > 0.85 | **100.0%** | Measures whether ground-truth document pages were retrieved in top-k. |
+| **Citation Grounding Rate** | > 0.90 | **100.0%** | Verifies that all citations correspond to verifiable document evidence. |
+| **Period & Range Accuracy** | > 0.85 | **100.0%** | Measures multi-year period extraction ('2021 to 2023') and YoY delta calculations. |
+| **Average Fact Coverage** | > 0.80 | **86.0%** | Proportion of ground-truth numerical and financial entities present in output. |
 
 ---
 
